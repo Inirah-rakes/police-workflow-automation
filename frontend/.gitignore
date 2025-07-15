@@ -1,0 +1,10 @@
+# Node dependencies
+node_modules/
+
+# Build folder
+build/
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
