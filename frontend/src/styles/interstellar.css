@@ -1,0 +1,381 @@
+/* Interstellar-Inspired Analytics Styles */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;500;700&display=swap');
+
+/* Interstellar Color Palette */
+:root {
+  --interstellar-primary: #00D4FF;
+  --interstellar-secondary: #FFD23F;
+  --interstellar-accent: #06FFA5;
+  --interstellar-warning: #FF6B35;
+  --interstellar-dark: #0A0E1A;
+  --interstellar-darker: #050810;
+  --interstellar-light: #1A2332;
+  --interstellar-glow: #00D4FF;
+  --interstellar-text: #E8F4FD;
+  --interstellar-text-muted: #8FA3B8;
+}
+
+/* Analytics Container */
+.analytics-container {
+  background: linear-gradient(135deg, var(--interstellar-darker) 0%, var(--interstellar-dark) 100%);
+  min-height: 100vh;
+  color: var(--interstellar-text);
+  font-family: 'Exo 2', sans-serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Animated Background */
+.analytics-container::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 210, 63, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(6, 255, 165, 0.05) 0%, transparent 50%);
+  z-index: -2;
+  animation: backgroundPulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes backgroundPulse {
+  0% { opacity: 0.3; }
+  100% { opacity: 0.7; }
+}
+
+/* Particle System */
+.particles-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  background: var(--interstellar-glow);
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: float 20s infinite linear;
+}
+
+.particle:nth-child(1) { width: 2px; height: 2px; left: 10%; animation-delay: 0s; }
+.particle:nth-child(2) { width: 3px; height: 3px; left: 20%; animation-delay: 2s; }
+.particle:nth-child(3) { width: 1px; height: 1px; left: 30%; animation-delay: 4s; }
+.particle:nth-child(4) { width: 2px; height: 2px; left: 40%; animation-delay: 6s; }
+.particle:nth-child(5) { width: 4px; height: 4px; left: 50%; animation-delay: 8s; }
+.particle:nth-child(6) { width: 2px; height: 2px; left: 60%; animation-delay: 10s; }
+.particle:nth-child(7) { width: 3px; height: 3px; left: 70%; animation-delay: 12s; }
+.particle:nth-child(8) { width: 1px; height: 1px; left: 80%; animation-delay: 14s; }
+.particle:nth-child(9) { width: 2px; height: 2px; left: 90%; animation-delay: 16s; }
+
+@keyframes float {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.4; }
+  90% { opacity: 0.4; }
+  100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+}
+
+/* Holographic Panel Effects */
+.holo-panel {
+  background: rgba(26, 35, 50, 0.15);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 16px;
+  backdrop-filter: blur(20px);
+  box-shadow: 
+    0 8px 32px rgba(0, 212, 255, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.holo-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.holo-panel:hover::before {
+  left: 100%;
+}
+
+.holo-panel:hover {
+  border-color: rgba(0, 212, 255, 0.6);
+  box-shadow: 
+    0 16px 64px rgba(0, 212, 255, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  transform: translateY(-4px);
+}
+
+/* Glowing Headers */
+.interstellar-title {
+  font-family: 'Orbitron', monospace;
+  font-weight: 900;
+  font-size: 3rem;
+  background: linear-gradient(45deg, var(--interstellar-primary), var(--interstellar-secondary));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  margin-bottom: 2rem;
+  text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+  position: relative;
+}
+
+.interstellar-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--interstellar-glow), transparent);
+  box-shadow: 0 0 20px var(--interstellar-glow);
+}
+
+/* Map Container */
+.map-container {
+  height: 500px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 2px solid rgba(0, 212, 255, 0.3);
+  box-shadow: 
+    0 0 40px rgba(0, 212, 255, 0.2),
+    inset 0 0 20px rgba(0, 212, 255, 0.05);
+  position: relative;
+}
+
+.map-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, 
+    rgba(0, 212, 255, 0.1) 0%, 
+    transparent 50%, 
+    rgba(255, 210, 63, 0.1) 100%);
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* Range Selection Panel */
+.range-selector {
+  background: rgba(26, 35, 50, 0.2);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 12px;
+  padding: 20px;
+  backdrop-filter: blur(15px);
+}
+
+.range-chip {
+  background: rgba(0, 212, 255, 0.1);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  color: var(--interstellar-text);
+  font-family: 'Orbitron', monospace;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin: 4px;
+  padding: 8px 16px;
+  border-radius: 20px;
+}
+
+.range-chip:hover {
+  background: rgba(0, 212, 255, 0.2);
+  border-color: rgba(0, 212, 255, 0.6);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+  transform: scale(1.05);
+}
+
+.range-chip.selected {
+  background: linear-gradient(45deg, var(--interstellar-primary), var(--interstellar-accent));
+  border-color: var(--interstellar-glow);
+  box-shadow: 0 0 25px rgba(0, 212, 255, 0.5);
+  color: var(--interstellar-dark);
+}
+
+/* KPI Cards */
+.kpi-card {
+  background: rgba(26, 35, 50, 0.2);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+  animation: rotate 8s linear infinite;
+  z-index: -1;
+}
+
+@keyframes rotate {
+  100% { transform: rotate(360deg); }
+}
+
+.kpi-value {
+  font-family: 'Orbitron', monospace;
+  font-weight: 900;
+  font-size: 2.5rem;
+  color: var(--interstellar-glow);
+  text-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+  margin-bottom: 8px;
+}
+
+.kpi-label {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: var(--interstellar-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Chart Containers */
+.chart-container {
+  background: rgba(26, 35, 50, 0.15);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: 16px;
+  padding: 24px;
+  backdrop-filter: blur(10px);
+}
+
+.chart-title {
+  font-family: 'Orbitron', monospace;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--interstellar-glow);
+  margin-bottom: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Custom Leaflet Styles */
+.leaflet-container {
+  background: var(--interstellar-dark) !important;
+  filter: contrast(1.2) brightness(0.8) hue-rotate(200deg);
+}
+
+.leaflet-tile {
+  filter: invert(1) contrast(1.2) brightness(0.8);
+}
+
+/* Station Markers */
+.station-marker {
+  background: var(--interstellar-glow);
+  border: 2px solid var(--interstellar-dark);
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  box-shadow: 
+    0 0 20px rgba(0, 212, 255, 0.8),
+    inset 0 0 5px rgba(255, 255, 255, 0.3);
+  animation: pulse 2s infinite;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.station-marker:hover {
+  transform: scale(1.5);
+  box-shadow: 0 0 30px rgba(0, 212, 255, 1);
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.8); }
+  50% { box-shadow: 0 0 40px rgba(0, 212, 255, 1); }
+}
+
+/* Date Range Picker */
+.date-range-container {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.date-input {
+  background: rgba(26, 35, 50, 0.3);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: var(--interstellar-text);
+  font-family: 'Exo 2', sans-serif;
+  font-size: 0.9rem;
+}
+
+.date-input:focus {
+  outline: none;
+  border-color: var(--interstellar-glow);
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+}
+
+/* Loading Animation */
+.interstellar-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.loader-ring {
+  width: 60px;
+  height: 60px;
+  border: 3px solid transparent;
+  border-top: 3px solid var(--interstellar-glow);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .interstellar-title {
+    font-size: 2rem;
+  }
+  
+  .map-container {
+    height: 300px;
+  }
+  
+  .kpi-value {
+    font-size: 2rem;
+  }
+  
+  .range-chip {
+    font-size: 0.7rem;
+    padding: 6px 12px;
+  }
+}

@@ -102,7 +102,7 @@ cd police-automation-system
 1. **Open a third terminal.**  
 2. **Navigate to the backend folder and activate the virtual environment.**  
 3. **To check for new requests from stations:**  
-   python manage.py check\_emails
+   python manage.py check_emails
 
 4. **To check for new responses from providers:**  
-   python manage.py check\_provider\_responses  
+   python manage.py check_provider_responses  
