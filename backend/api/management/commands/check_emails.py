@@ -111,7 +111,7 @@ class Command(BaseCommand):
                         payload = msg.get_payload(decode=True)
                         body = payload.decode(msg.get_content_charset() or "utf-8")
 
-                    # --- NEW: Find ALL 10-digit numbers in the email body ---
+                    # Find ALL 10-digit numbers in the email body 
                     mobile_numbers = re.findall(r'\b\d{10}\b', body)
                     
                     if not mobile_numbers:
@@ -123,7 +123,7 @@ class Command(BaseCommand):
                     # Create a separate database record for EACH number
                     for number in mobile_numbers:
                         self.stdout.write(f"  > Verifying provider for {number}...")
-                        # --- API CALL INSTEAD OF MANUAL LOGIC ---
+                        # API CALL 
                         provider = get_provider_from_api(number, VERIPHONE_API_KEY)
                         self.stdout.write(f"  > API Result: {provider}")
                         
