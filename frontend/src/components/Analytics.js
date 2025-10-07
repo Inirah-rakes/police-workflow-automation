@@ -16,12 +16,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   TextField,
-  Divider,
   Alert
 } from '@mui/material';
 import { 
@@ -43,41 +38,31 @@ import {
 } from 'recharts';
 import { 
   Refresh, 
-  LocationOn, 
   Timeline, 
   PieChart as PieChartIcon,
   BarChart as BarChartIcon,
-  Map as MapIcon,
   DateRange,
   Analytics as AnalyticsIcon,
   TrendingUp,
-  Security,
   Assessment,
   FilterList
 } from '@mui/icons-material';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
-import { policeRangesData, fetchAnalyticsFromDB } from '../data/policeData';
+import { policeStationsData, fetchAnalyticsFromDB } from '../data/policeData';
 
 // Animation variants
 const containerVariants = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 }
-  }
+  visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
 };
 
 const itemVariants = {
   hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: { type: 'spring', stiffness: 100 }
-  }
+  visible: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 100 } }
 };
 
-// Professional KPI Card Component
+// KPI Card Component
 const KPICard = ({ title, value, icon, color = '#1565C0', subtitle = '' }) => (
   <motion.div variants={itemVariants} whileHover={{ scale: 1.02 }}>
     <Card 
@@ -139,8 +124,8 @@ const KPICard = ({ title, value, icon, color = '#1565C0', subtitle = '' }) => (
   </motion.div>
 );
 
-// Range Filter Component
-const RangeFilter = ({ selectedRanges, onRangeChange, onSelectAll, onClearAll }) => (
+// Station Filter Component (Police station names only)
+const StationFilter = ({ selectedStations, onStationChange, onSelectAll, onClearAll }) => (
   <Paper 
     elevation={2} 
     sx={{ 
@@ -161,7 +146,7 @@ const RangeFilter = ({ selectedRanges, onRangeChange, onSelectAll, onClearAll })
             color: '#1A202C'
           }}
         >
-          Range Filter
+          Police Station Filter
         </Typography>
       </Box>
       <Box>
@@ -190,22 +175,24 @@ const RangeFilter = ({ selectedRanges, onRangeChange, onSelectAll, onClearAll })
     </Box>
     
     <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-      {policeRangesData.ranges.map((range) => (
+      {policeStationsData.map((station) => (
         <Chip
-          key={range.id}
-          label={range.name}
-          onClick={() => onRangeChange(range.id)}
-          variant={selectedRanges.includes(range.id) ? 'filled' : 'outlined'}
+          key={station.id}
+          label={station.name}
+          onClick={() => onStationChange(station.name)}
+          onDelete={selectedStations.includes(station.name) ? () => onStationChange(station.name) : undefined}
+          deleteIcon={selectedStations.includes(station.name) ? <span style={{color: 'white'}}>×</span> : undefined}
+          variant={selectedStations.includes(station.name) ? 'filled' : 'outlined'}
           sx={{
             fontFamily: '"TikTok Sans", sans-serif',
             fontWeight: 600,
             fontSize: '0.9rem',
             mb: 1,
-            backgroundColor: selectedRanges.includes(range.id) ? range.color : 'transparent',
-            borderColor: range.color,
-            color: selectedRanges.includes(range.id) ? 'white' : range.color,
+            backgroundColor: selectedStations.includes(station.name) ? '#1565C0' : 'transparent',
+            borderColor: '#1565C0',
+            color: selectedStations.includes(station.name) ? 'white' : '#1565C0',
             '&:hover': {
-              backgroundColor: range.color,
+              backgroundColor: '#1565C0',
               color: 'white'
             }
           }}
@@ -215,20 +202,14 @@ const RangeFilter = ({ selectedRanges, onRangeChange, onSelectAll, onClearAll })
   </Paper>
 );
 
-// Police Stations Table Component
-const StationsTable = ({ stations, title }) => (
+// Top Stations Table (Names only)
+const TopStationsTable = ({ stations, title }) => (
   <TableContainer component={Paper} elevation={2}>
     <Table>
       <TableHead>
         <TableRow sx={{ backgroundColor: '#1565C0' }}>
           <TableCell sx={{ color: 'white', fontWeight: 700, fontFamily: '"TikTok Sans", sans-serif' }}>
-            Station ID
-          </TableCell>
-          <TableCell sx={{ color: 'white', fontWeight: 700, fontFamily: '"TikTok Sans", sans-serif' }}>
-            Station Name
-          </TableCell>
-          <TableCell sx={{ color: 'white', fontWeight: 700, fontFamily: '"TikTok Sans", sans-serif' }}>
-            Range
+            Police Station Name
           </TableCell>
           <TableCell sx={{ color: 'white', fontWeight: 700, fontFamily: '"TikTok Sans", sans-serif' }}>
             Requests
@@ -236,31 +217,16 @@ const StationsTable = ({ stations, title }) => (
         </TableRow>
       </TableHead>
       <TableBody>
-        {stations.map((station) => (
+        {stations.map((station, index) => (
           <TableRow 
-            key={station.stationId}
+            key={index}
             sx={{ 
               '&:hover': { backgroundColor: '#f8fafc' },
               transition: 'background-color 0.2s ease'
             }}
           >
             <TableCell sx={{ fontFamily: '"TikTok Sans", sans-serif', fontWeight: 600 }}>
-              {station.stationId}
-            </TableCell>
-            <TableCell sx={{ fontFamily: '"TikTok Sans", sans-serif' }}>
               {station.station}
-            </TableCell>
-            <TableCell>
-              <Chip 
-                label={station.range}
-                size="small"
-                sx={{
-                  backgroundColor: station.rangeColor,
-                  color: 'white',
-                  fontFamily: '"TikTok Sans", sans-serif',
-                  fontWeight: 600
-                }}
-              />
             </TableCell>
             <TableCell sx={{ fontFamily: '"TikTok Sans", sans-serif', fontWeight: 600 }}>
               {station.requests}
@@ -272,7 +238,7 @@ const StationsTable = ({ stations, title }) => (
   </TableContainer>
 );
 
-// Chart Container Component
+// Chart Container
 const ChartContainer = ({ title, icon, children }) => (
   <Paper 
     elevation={2} 
@@ -306,7 +272,7 @@ const Analytics = () => {
   const [analyticsData, setAnalyticsData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedRanges, setSelectedRanges] = useState([]);
+  const [selectedStations, setSelectedStations] = useState([]);
   const [dateRange, setDateRange] = useState({
     start: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     end: new Date().toISOString().split('T')[0]
@@ -315,7 +281,7 @@ const Analytics = () => {
   const loadAnalytics = async () => {
     setLoading(true);
     try {
-      const data = await fetchAnalyticsFromDB(selectedRanges, dateRange);
+      const data = await fetchAnalyticsFromDB(selectedStations, dateRange);
       setAnalyticsData(data);
       setError(null);
     } catch (err) {
@@ -328,22 +294,22 @@ const Analytics = () => {
 
   useEffect(() => {
     loadAnalytics();
-  }, [selectedRanges, dateRange]);
+  }, [selectedStations, dateRange]);
 
-  const handleRangeChange = (rangeId) => {
-    setSelectedRanges(prev => 
-      prev.includes(rangeId)
-        ? prev.filter(id => id !== rangeId)
-        : [...prev, rangeId]
+  const handleStationChange = (stationName) => {
+    setSelectedStations(prev => 
+      prev.includes(stationName)
+        ? prev.filter(name => name !== stationName)
+        : [...prev, stationName]
     );
   };
 
   const handleSelectAll = () => {
-    setSelectedRanges(policeRangesData.ranges.map(r => r.id));
+    setSelectedStations(policeStationsData.map(st => st.name));
   };
 
   const handleClearAll = () => {
-    setSelectedRanges([]);
+    setSelectedStations([]);
   };
 
   const formatTrendData = useMemo(() => {
@@ -384,7 +350,7 @@ const Analytics = () => {
               mb: 1
             }}
           >
-            Police Analytics Dashboard
+            Police CyberCrime Request Dashboard
           </Typography>
           <Typography 
             variant="body1" 
@@ -445,10 +411,10 @@ const Analytics = () => {
           </Alert>
         )}
 
-        {/* Range Filter */}
-        <RangeFilter
-          selectedRanges={selectedRanges}
-          onRangeChange={handleRangeChange}
+        {/* Station Filter */}
+        <StationFilter
+          selectedStations={selectedStations}
+          onStationChange={handleStationChange}
           onSelectAll={handleSelectAll}
           onClearAll={handleClearAll}
         />
@@ -461,7 +427,7 @@ const Analytics = () => {
               value={analyticsData?.totalRequests || 0}
               icon={<AnalyticsIcon fontSize="large" />}
               color="#1565C0"
-              subtitle="All time requests"
+              subtitle="All selected stations"
             />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
@@ -484,11 +450,11 @@ const Analytics = () => {
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <KPICard
-              title="Active Ranges"
-              value={analyticsData?.activeRanges || 0}
-              icon={<Security fontSize="large" />}
+              title="Selected Stations"
+              value={analyticsData?.activeStations || 0}
+              //icon={<Security fontSize="large" />}
               color="#7B1FA2"
-              subtitle="Out of 7 total ranges"
+              subtitle="Out of 19 total stations"
             />
           </Grid>
         </Grid>
@@ -582,46 +548,7 @@ const Analytics = () => {
           </Grid>
         </Grid>
 
-        {/* Range Distribution Chart */}
-        <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid item xs={12}>
-            <ChartContainer
-              title="Range-wise Request Distribution"
-              icon={<BarChartIcon sx={{ color: '#1565C0' }} />}
-            >
-              <ResponsiveContainer width="100%" height={400}>
-                <BarChart data={analyticsData?.rangeDistribution || []}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                  <XAxis 
-                    dataKey="range" 
-                    tick={{ fill: '#4A5568', fontSize: 12 }}
-                    axisLine={{ stroke: '#e2e8f0' }}
-                  />
-                  <YAxis 
-                    tick={{ fill: '#4A5568', fontSize: 12 }}
-                    axisLine={{ stroke: '#e2e8f0' }}
-                  />
-                  <Tooltip 
-                    contentStyle={{
-                      backgroundColor: 'white',
-                      border: '1px solid #e2e8f0',
-                      borderRadius: '8px',
-                      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
-                    }}
-                  />
-                  <Bar 
-                    dataKey="requests" 
-                    fill="#1565C0"
-                    name="Requests"
-                    radius={[4, 4, 0, 0]}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </ChartContainer>
-          </Grid>
-        </Grid>
-
-        {/* Top Performing Stations Table */}
+        {/* Top Performing Police Stations Table (Names only) */}
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Paper elevation={2} sx={{ p: 3 }}>
@@ -636,7 +563,7 @@ const Analytics = () => {
               >
                 Top Performing Police Stations
               </Typography>
-              <StationsTable stations={analyticsData?.topStations || []} />
+              <TopStationsTable stations={analyticsData?.topStations || []} />
             </Paper>
           </Grid>
         </Grid>

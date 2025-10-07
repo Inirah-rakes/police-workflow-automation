@@ -4,7 +4,7 @@ import { LockOutlined, Visibility, VisibilityOff } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 
 const TNPoliceLogo = () => (
-    <img src="https://i.imgur.com/3QXZJ3S.png" alt="Tamil Nadu Police Logo" style={{ height: 60, marginRight: 16 }} onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/60x60/FFFFFF/000000?text=Logo'; }} />
+    <img src="https://images.seeklogo.com/logo-png/47/1/tamilnadu-police-logo-png_seeklogo-475368.png" alt="Tamil Nadu Police Logo" style={{ height: 60, marginRight: 16 }} onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/60x60/FFFFFF/000000?text=Logo'; }} />
 );
 
 const LoginPage = ({ onLogin }) => {

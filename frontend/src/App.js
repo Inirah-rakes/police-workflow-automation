@@ -62,7 +62,7 @@
 //                 <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
 //                     <Toolbar>
 //                         <TNPoliceLogo />
-//                         <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>CSR Service Dashboard</Typography>
+//                         <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>Police Cyber  Dashboard</Typography>
 //                         <Typography variant="body1" sx={{ mr: 2 }}>{currentTime.toLocaleString()}</Typography>
 //                         <Button color="inherit" onClick={handleLogout}>Logout</Button>
 //                     </Toolbar>
@@ -246,7 +246,7 @@ function App() {
                                 fontSize: '1.5rem'
                             }}
                         >
-                            CSR Service Dashboard
+                            Police CyberCrime Request Dashboard
                         </Typography>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                             <Schedule sx={{ color: 'rgba(255, 255, 255, 0.8)' }} />
